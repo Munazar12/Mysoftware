@@ -62,4 +62,42 @@
             <input type="text" id="inputText" placeholder="Type something...">
         </div>
         <button onclick="generateShort()">Generate Short</button>
-        <div class=
+        <div class="result" id="result"></div>
+    </div>
+    <script>
+        async function generateShort() {
+            const inputText = document.getElementById('inputText').value;
+            const resultDiv = document.getElementById('result');
+
+            if (inputText.trim() === '') {
+                resultDiv.innerHTML = '<p>Please enter some text.</p>';
+                return;
+            }
+
+            try {
+                // Simulated API call
+                // Replace this with your actual API endpoint and key
+                const response = await fetch('https://api.example.com/generate-short', {
+                    method: 'POST',
+                    headers: {
+                        'Content-Type': 'application/json',
+                        'Authorization': 'Bearer YOUR_API_KEY'
+                    },
+                    body: JSON.stringify({ text: inputText })
+                });
+
+                const data = await response.json();
+
+                if (response.ok) {
+                    resultDiv.innerHTML = `<p>Generated AI short: <strong>${data.result}</strong></p>`;
+                } else {
+                    resultDiv.innerHTML = `<p>Error: ${data.message}</p>`;
+                }
+            } catch (error) {
+                resultDiv.innerHTML = '<p>Something went wrong. Please try again later.</p>';
+            }
+        }
+    </script>
+</body>
+</html>
+
